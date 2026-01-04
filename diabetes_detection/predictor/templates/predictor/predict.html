@@ -1,0 +1,198 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}Nouvelle Prédiction{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-section {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .form-section h5 {
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--secondary-color);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 5px;
+    }
+    
+    .help-text {
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+    
+    .required-field::after {
+        content: " *";
+        color: red;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-user-plus"></i> Nouvelle Prédiction de Diabète
+            </div>
+            <div class="card-body">
+                <form method="post" id="predictionForm">
+                    {% csrf_token %}
+                    
+                    <div class="form-section">
+                        <h5><i class="fas fa-user"></i> Informations Personnelles</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label required-field">{{ form.nom.label }}</label>
+                                    {{ form.nom }}
+                                    {% if form.nom.errors %}
+                                        <div class="text-danger">{{ form.nom.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label required-field">{{ form.prenom.label }}</label>
+                                    {{ form.prenom }}
+                                    {% if form.prenom.errors %}
+                                        <div class="text-danger">{{ form.prenom.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label required-field">{{ form.age.label }}</label>
+                                    {{ form.age }}
+                                    {% if form.age.errors %}
+                                        <div class="text-danger">{{ form.age.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h5><i class="fas fa-notes-medical"></i> Données Médicales</h5>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label required-field">{{ form.pregnancies.label }}</label>
+                                    {{ form.pregnancies }}
+                                    <small class="help-text">{{ form.pregnancies.help_text }}</small>
+                                    {% if form.pregnancies.errors %}
+                                        <div class="text-danger">{{ form.pregnancies.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label required-field">{{ form.glucose.label }}</label>
+                                    {{ form.glucose }}
+                                    <small class="help-text">{{ form.glucose.help_text }}</small>
+                                    {% if form.glucose.errors %}
+                                        <div class="text-danger">{{ form.glucose.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label required-field">{{ form.blood_pressure.label }}</label>
+                                    {{ form.blood_pressure }}
+                                    <small class="help-text">{{ form.blood_pressure.help_text }}</small>
+                                    {% if form.blood_pressure.errors %}
+                                        <div class="text-danger">{{ form.blood_pressure.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label required-field">{{ form.skin_thickness.label }}</label>
+                                    {{ form.skin_thickness }}
+                                    <small class="help-text">{{ form.skin_thickness.help_text }}</small>
+                                    {% if form.skin_thickness.errors %}
+                                        <div class="text-danger">{{ form.skin_thickness.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label required-field">{{ form.insulin.label }}</label>
+                                    {{ form.insulin }}
+                                    <small class="help-text">{{ form.insulin.help_text }}</small>
+                                    {% if form.insulin.errors %}
+                                        <div class="text-danger">{{ form.insulin.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label required-field">{{ form.bmi.label }}</label>
+                                    {{ form.bmi }}
+                                    <small class="help-text">{{ form.bmi.help_text }}</small>
+                                    {% if form.bmi.errors %}
+                                        <div class="text-danger">{{ form.bmi.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label required-field">{{ form.diabetes_pedigree.label }}</label>
+                                    {{ form.diabetes_pedigree }}
+                                    <small class="help-text">{{ form.diabetes_pedigree.help_text }}</small>
+                                    {% if form.diabetes_pedigree.errors %}
+                                        <div class="text-danger">{{ form.diabetes_pedigree.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-chart-line"></i> Effectuer la Prédiction
+                        </button>
+                        <a href="{% url 'index' %}" class="btn btn-outline-secondary btn-lg ms-2">
+                            <i class="fas fa-times"></i> Annuler
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('predictionForm').addEventListener('submit', function(e) {
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyse en cours...';
+    });
+</script>
+{% endblock %}

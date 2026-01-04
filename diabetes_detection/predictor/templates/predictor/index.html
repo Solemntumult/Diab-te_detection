@@ -1,0 +1,152 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}Accueil - Détection du Diabète{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 text-center mb-5">
+        <h1 class="display-4 text-white fw-bold">
+            <i class="fas fa-heartbeat"></i> Système de Détection du Diabète
+        </h1>
+        <p class="lead text-white">Prédiction intelligente basée sur le Machine Learning</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                <h3 class="fw-bold">{{ total_patients }}</h3>
+                <p class="text-muted mb-0">Patients Analysés</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                <h3 class="fw-bold">{{ diabetic_count }}</h3>
+                <p class="text-muted mb-0">Cas Positifs</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                <h3 class="fw-bold">{{ non_diabetic_count }}</h3>
+                <p class="text-muted mb-0">Cas Négatifs</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="fas fa-info-circle"></i> À propos du système
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Détection précoce du diabète</h5>
+                <p class="card-text">
+                    Notre système utilise un modèle de Machine Learning (Random Forest) 
+                    entraîné sur plus de 800 patients pour prédire le risque de diabète.
+                </p>
+                <h6 class="mt-4">Fonctionnalités :</h6>
+                <ul>
+                    <li><i class="fas fa-check text-success"></i> Analyse de 8 paramètres médicaux</li>
+                    <li><i class="fas fa-check text-success"></i> Prédiction en temps réel</li>
+                    <li><i class="fas fa-check text-success"></i> Pourcentage de probabilité</li>
+                    <li><i class="fas fa-check text-success"></i> Historique des patients</li>
+                </ul>
+                <div class="text-center mt-4">
+                    <a href="{% url 'predict' %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-plus-circle"></i> Nouvelle Prédiction
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="fas fa-clock"></i> Prédictions Récentes
+            </div>
+            <div class="card-body">
+                {% if recent_predictions %}
+                    <div class="list-group">
+                        {% for patient in recent_predictions %}
+                            <a href="{% url 'result' patient.id %}" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">{{ patient.nom }} {{ patient.prenom }}</h6>
+                                        <small class="text-muted">
+                                            <i class="far fa-calendar"></i> 
+                                            {{ patient.date_prediction|date:"d/m/Y à H:i" }}
+                                        </small>
+                                    </div>
+                                    <div>
+                                        <span class="badge bg-{{ patient.get_risk_color }} rounded-pill">
+                                            {% if patient.prediction %}
+                                                Positif - {{ patient.probability }}%
+                                            {% else %}
+                                                Négatif - {{ patient.probability }}%
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'history' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-history"></i> Voir tout l'historique
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Aucune prédiction pour le moment</p>
+                        <a href="{% url 'predict' %}" class="btn btn-primary">
+                            Commencer
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-chart-bar"></i> Métriques du Modèle
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <h4 class="text-primary">~78%</h4>
+                        <p class="text-muted mb-0">Accuracy</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h4 class="text-success">~75%</h4>
+                        <p class="text-muted mb-0">Precision</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h4 class="text-warning">~70%</h4>
+                        <p class="text-muted mb-0">Recall</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h4 class="text-info">~83%</h4>
+                        <p class="text-muted mb-0">ROC-AUC</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
